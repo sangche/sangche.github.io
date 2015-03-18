@@ -14,6 +14,7 @@ Let's assume that the big problem here is, for example, to sort a huge list of i
 I will implement and compare two versions of quick sorting a big integer list. One is none concurrent recursive quicksort running in a single task. The other impelmentation is to partition the list into sub-lists until some threshold and sort them concurrently to improve performance, using scala Futures.
 
 Here is a non-concurrent `quicksort` in Scala
+
 {% highlight scala %}
 def quicksort(data: List[Int]): List[Int] = {
     if (data.isEmpty) {
@@ -25,10 +26,12 @@ def quicksort(data: List[Int]): List[Int] = {
     }
   }
 {% endhighlight %}
+
 This is recursive function running from start to end in one thread.
 
 Now, concurrent version of quicksort with Futures.
 Here is `concurrentQuicksort` implementation.
+
 {% highlight scala %}
 def concurrentQuicksort(data: List[Int]): List[Int] = {
     if (data.size < THRESHOLD) quicksort(data)
@@ -62,6 +65,7 @@ def time[R](block: => R)(name: String = "NoName"): R = {
 {% endhighlight %}
 
 `main` function has 800000 random integers as a test data to sort out.
+
 {% highlight scala %}
 val THRESHOLD = 20000
 
@@ -100,6 +104,7 @@ time taken: 3681652 by quicksort
 time taken: 2379807 by concurrentQuicksort
 PASS
 {% endhighlight %}
+
 The result clearly shows that there is some performance gain with Futures.
 
 But, note that the performance of concurrent implementation is more variant than non concurrent implementation.
