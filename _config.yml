@@ -14,8 +14,3 @@ author:
 
 gems:
   - jekyll-sitemap
-
-
-highlighter: pygments
-github: site.github.project_title
-
