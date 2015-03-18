@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html>
+---
+layout: default
+title: Home
+---
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Introduction : ">
-    <title>Introduction</title>
-  </head>
-
-  <body>
-  <h1>Hi there!</h1>
-
-  </body>
-</html>
+<div class="page">
+    <ul>
+        {% for post in site.posts %}
+        <li>{{ post.date | date_to_string }}: <a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
