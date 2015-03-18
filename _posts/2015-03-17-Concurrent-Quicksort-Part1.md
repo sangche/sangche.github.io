@@ -1,7 +1,7 @@
 ---
 title: Concurrent Quicksort in Scala Futures, Part1
 layout: post
-comments: true
+comments: false
 ---
 
 Scala provides `Futures` and `Promises` to help develop concurrent, asynchronous systems which outperform
@@ -11,10 +11,10 @@ by default, if you import ExcutionContext.Implicit.global in scala.concurrent pa
 
 Let's assume that the big problem here is, for example, to sort a huge list of integers. By applying concurrent divide-and-conquer with Futures, I would like to see how much it can improve performance.
 
-I will implement and compare two versions of quick sorting a big integer list. One is none concurrent recursive quicksort running in a single task. The other impelmentation is to partition the list into sub-lists until some threshold and sort them `concurrently` to improve performance, using scala Futures.
+I will implement and compare two versions of quick sorting a big integer list. One is none concurrent recursive quicksort running in a single task. The other impelmentation is to partition the list into sub-lists until some threshold and sort them concurrently to improve performance, using scala Futures.
 
 Here is a non-concurrent `quicksort` in Scala
-```scala
+{% highlight scala %}
 def quicksort(data: List[Int]): List[Int] = {
     if (data.isEmpty) {
       data
@@ -24,12 +24,12 @@ def quicksort(data: List[Int]): List[Int] = {
       quicksort(lP) ++ (pivot :: quicksort(rP))
     }
   }
-```
+{% endhighlight %}
 This is recursive function running from start to end in one thread.
 
 Now, concurrent version of quicksort with Futures.
 Here is `concurrentQuicksort` implementation.
-```scala
+{% highlight scala %}
 def concurrentQuicksort(data: List[Int]): List[Int] = {
     if (data.size < THRESHOLD) quicksort(data)
     else {
@@ -43,7 +43,7 @@ def concurrentQuicksort(data: List[Int]): List[Int] = {
       Await.result(f_value, 10 seconds)
     }
   }
-```
+{% endhighlight %}
 
 For better understanding, the execution model of this concurrentQuicksort is depicted as execution tree structure as in the picture below.
 
@@ -51,7 +51,7 @@ For better understanding, the execution model of this concurrentQuicksort is dep
 
 Ok, now to measure performance of the two implementations, here is helper function `time`.
 
-```scala
+{% highlight scala %}
 def time[R](block: => R)(name: String = "NoName"): R = {
     val start = System.nanoTime()
     val result = block
@@ -59,10 +59,10 @@ def time[R](block: => R)(name: String = "NoName"): R = {
     println(s"time taken: ${(end - start) / 1000} by $name")
     result
   }
-```
+{% endhighlight %}
 
 `main` function has 800000 random integers as a test data to sort out.
-```scala
+{% highlight scala %}
 val THRESHOLD = 20000
 
 def main(args: Array[String]) = {
@@ -76,10 +76,10 @@ def main(args: Array[String]) = {
 
   if (result1 == result2) println("PASS") else println("FAIL")
 }
-```
+{% endhighlight %}
 Let's run main 5 times to compare performance of the two implementations. Here is my test result(my CPU has 4 cores)
 
-```
+{% highlight %}
 time taken: 3828665 by quicksort
 time taken: 2689388 by concurrentQuicksort
 PASS
@@ -99,8 +99,7 @@ PASS
 time taken: 3681652 by quicksort
 time taken: 2379807 by concurrentQuicksort
 PASS
-
-```
+{% endhighlight %}
 The result clearly shows that there is some performance gain with Futures.
 
 But, note that the performance of concurrent implementation is more variant than non concurrent implementation.
