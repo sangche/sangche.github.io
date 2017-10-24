@@ -3,7 +3,7 @@ permalink:           pretty
 relative_permalinks: true
 
 # Setup
-title:            Sangche's Blog
+title:            Sangche initial's Blog
 tagline:          ""
 url:              http://sangche.github.io
 paginate:         1
