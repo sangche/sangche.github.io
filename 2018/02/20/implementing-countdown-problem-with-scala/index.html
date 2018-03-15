@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Post Listing</title>
-  <meta name="description" content="Post Listing">
+  <title>Implementing Countdown problem with Scala</title>
+  <meta name="description" content="Implementing Countdown problem with Scala">
   <meta name="author" content="Sangche Hwang">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -338,8 +338,6 @@ body {
 
   
   
-  <link href="http://sangche.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Post Listing Feed" />
-  
 
   <meta name="generator" content="Hugo 0.36.1" />
   
@@ -381,59 +379,370 @@ body {
 
 <div class="pure-g">
   <div class="pure-u-1-24 pure-u-md-1-6"></div>
-	<div class="pure-u-11-12 pure-u-md-2-3">
-	<div class="post-content">
-	
-	  <p class="posts-name">Recent posts:</p>
+  <div class="pure-u-11-12 pure-u-md-2-3">
+    <div class="post">
 
-	  <ul class="posts">
-		
-		
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="http://sangche.github.io/2018/02/20/implementing-countdown-problem-with-scala/">Implementing Countdown problem with Scala</a>
+      <div class="post-title">
+        <p class="footnote">
+        <time class="">02-20-2018</time>
+        
+        
+        
 
-		  <p class="footnote">
-			<time datetime="02-20-2018T14:17:14&#43;09:00">02-20-2018</time>
+        
 
-			
+        
+        </p>
+        <h1>Implementing Countdown problem with Scala</h1>
+      </div>
 
-			
+      <div class="post-content">
+        <p><link rel="stylesheet" href="/highlight/styles/darcular.css">
+<script src="/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script></p>
 
-			
+<p><strong>Haskell</strong> was born functional. I find that functional programming in Haskell looks more succint than
+in <strong>Scala</strong>, which is also functional langauge.
+But Scala was born on top of java to extend functional features.
+So, Scala is more like hybrid language of object oriented and functioanl features.
+It means that Scala has OOP, functional, strict, lazy, mutable, immutable, so many features.
+It all depends on how scala users utilize it. So Scala looks a bit complicated for starters.<br>
+Nevertheless, Scala can be used as much similar as Haskell for functional programming.
+Here, I translate Haskell code of <code>Countdown problem</code> from Graham Hutton&rsquo;s book <code>Programming in Haskell</code> into Scala language.</p>
 
-			
+<p>The Haskell version of the code:</p>
 
-		  </p>
-		</li>
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="http://sangche.github.io/2017/04/20/functional-programming-in-scala-capstone-project/">Functional Programming in Scala Capstone Project</a>
+<pre><code class="language-haskell">-- Countdown example from chapter 9 of Programming in Haskell,
+-- Graham Hutton, Cambridge University Press, 2016.
 
-		  <p class="footnote">
-			<time datetime="04-20-2017T00:00:00Z">04-20-2017</time>
+-- Arithmetic operators
 
-			
+data Op = Add | Sub | Mul | Div
 
-			
+instance Show Op where
+   show Add = &quot;+&quot;
+   show Sub = &quot;-&quot;
+   show Mul = &quot;*&quot;
+   show Div = &quot;/&quot;
 
-			
+valid :: Op -&gt; Int -&gt; Int -&gt; Bool
+valid Add _ _ = True
+valid Sub x y = x &gt; y
+valid Mul _ _ = True
+valid Div x y = x `mod` y == 0
 
-			
+apply :: Op -&gt; Int -&gt; Int -&gt; Int
+apply Add x y = x + y
+apply Sub x y = x - y
+apply Mul x y = x * y
+apply Div x y = x `div` y
 
-		  </p>
-		</li>
-		
-		
-	  </ul>
-	</div>
-	</div>
+-- Numeric expressions
+
+data Expr = Val Int | App Op Expr Expr
+
+instance Show Expr where
+   show (Val n)     = show n
+   show (App o l r) = brak l ++ show o ++ brak r
+                      where
+                         brak (Val n) = show n
+                         brak e       = &quot;(&quot; ++ show e ++ &quot;)&quot;
+
+values :: Expr -&gt; [Int]
+values (Val n)     = [n]
+values (App _ l r) = values l ++ values r
+
+eval :: Expr -&gt; [Int]
+eval (Val n)     = [n | n &gt; 0]
+eval (App o l r) = [apply o x y | x &lt;- eval l,
+                                  y &lt;- eval r,
+                                  valid o x y]
+
+-- Combinatorial functions
+
+subs :: [a] -&gt; [[a]]
+subs []     = [[]]
+subs (x:xs) = yss ++ map (x:) yss
+              where yss = subs xs
+
+interleave :: a -&gt; [a] -&gt; [[a]]
+interleave x []     = [[x]]
+interleave x (y:ys) = (x:y:ys) : map (y:) (interleave x ys)
+
+perms :: [a] -&gt; [[a]]
+perms []     = [[]]
+perms (x:xs) = concat (map (interleave x) (perms xs))
+
+choices :: [a] -&gt; [[a]]
+choices = concat . map perms . subs
+
+-- Formalising the problem
+
+solution :: Expr -&gt; [Int] -&gt; Int -&gt; Bool
+solution e ns n = elem (values e) (choices ns) &amp;&amp; eval e == [n]
+
+-- Brute force solution
+
+split :: [a] -&gt; [([a],[a])]
+split []     = []
+split [_]    = []
+split (x:xs) = ([x],xs) : [(x:ls,rs) | (ls,rs) &lt;- split xs]
+
+exprs :: [Int] -&gt; [Expr]
+exprs []  = []
+exprs [n] = [Val n]
+exprs ns  = [e | (ls,rs) &lt;- split ns,
+                 l       &lt;- exprs ls,
+                 r       &lt;- exprs rs,
+                 e       &lt;- combine l r]
+
+combine :: Expr -&gt; Expr -&gt; [Expr]
+combine l r = [App o l r | o &lt;- ops]
+
+ops :: [Op]
+ops = [Add,Sub,Mul,Div]
+
+solutions :: [Int] -&gt; Int -&gt; [Expr]
+solutions ns n = [e | ns' &lt;- choices ns, e &lt;- exprs ns', eval e == [n]]
+
+-- Combining generation and evaluation
+
+type Result = (Expr,Int)
+
+results :: [Int] -&gt; [Result]
+results []  = []
+results [n] = [(Val n,n) | n &gt; 0]
+results ns  = [res | (ls,rs) &lt;- split ns,
+                      lx     &lt;- results ls,
+                      ry     &lt;- results rs,
+                      res    &lt;- combine' lx ry]
+
+combine' :: Result -&gt; Result -&gt; [Result]
+combine' (l,x) (r,y) = [(App o l r, apply o x y) | o &lt;- ops, valid o x y]
+
+solutions' :: [Int] -&gt; Int -&gt; [Expr]
+solutions' ns n = [e | ns' &lt;- choices ns, (e,m) &lt;- results ns', m == n]
+
+-- Exploiting algebraic properties
+
+valid' :: Op -&gt; Int -&gt; Int -&gt; Bool
+valid' Add x y = x &lt;= y
+valid' Sub x y = x &gt; y
+valid' Mul x y = x /= 1 &amp;&amp; y /= 1 &amp;&amp; x &lt;= y
+valid' Div x y = y /= 1 &amp;&amp; x `mod` y == 0
+
+results' :: [Int] -&gt; [Result]
+results' []  = []
+results' [n] = [(Val n,n) | n &gt; 0]
+results' ns  = [res | (ls,rs) &lt;- split ns,
+                       lx     &lt;- results' ls,
+                       ry     &lt;- results' rs,
+                       res    &lt;- combine'' lx ry]
+
+combine'' :: Result -&gt; Result -&gt; [Result]
+combine'' (l,x) (r,y) = [(App o l r, apply o x y) | o &lt;- ops, valid' o x y]
+
+solutions'' :: [Int] -&gt; Int -&gt; [Expr]
+solutions'' ns n = [e | ns' &lt;- choices ns, (e,m) &lt;- results' ns', m == n]
+
+-- Testing
+main :: IO ()
+main = print (solutions'' [3,5,7,12,18,20] 750)
+-- main = print (solutions'' [1,3,7,10,25,50] 765)
+</code></pre>
+
+<p>Here is Graham Hutton&rsquo;s video lecture explaining countdown problem in Haskell language.</p>
+
+<div>
+<iframe width="854" height="480" src="https://www.youtube.com/embed/rlwSBNI9bXE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<p>The Haskell code above can be implemented with Scala language in very much similar functional style,
+Here is Scala implementation. We need to use Scala&rsquo;s OO features(trait, class, object, inheritance) to construct algebraic data type.
+First, algebraic data type implementation with trait and case object in Scala:</p>
+
+<pre><code class="language-scala">trait Op {
+  def apply(a: Int, b: Int): Int
+}
+
+case object Add extends Op {
+  def apply(a: Int, b: Int) = a + b
+}
+case object Sub extends Op {
+  def apply(a: Int, b: Int) = a - b
+}
+case object Mul extends Op {
+  def apply(a: Int, b: Int) = a * b
+}
+case object Div extends Op {
+  def apply(a: Int, b: Int) = a / b
+}
+
+trait Expr {
+  override def toString = this match {
+    case Val(v) =&gt; v.toString
+    case Aps(o, l, r) =&gt; o match {
+      case Add =&gt; &quot;(&quot; + l.toString + &quot; + &quot; + r.toString + &quot;)&quot;
+      case Sub =&gt; &quot;(&quot; + l.toString + &quot; - &quot; + r.toString + &quot;)&quot;
+      case Mul =&gt; &quot;(&quot; + l.toString + &quot; * &quot; + r.toString + &quot;)&quot;
+      case Div =&gt; &quot;(&quot; + l.toString + &quot; / &quot; + r.toString + &quot;)&quot;
+    }
+  }
+}
+
+case class Val(value: Int) extends Expr
+case class Aps(o: Op, l: Expr, r: Expr) extends Expr
+</code></pre>
+
+<p>With Op, Expr, Val, Aps types at hand, we can implement Countdown object and functions inside it to solve countdown problem.
+Alternative solution functions included.</p>
+
+<pre><code class="language-scala">object CountDown extends App {
+
+  def valid(op: Op, x: Int, y: Int): Boolean = op match {
+    case Add =&gt; true
+    case Sub =&gt; x &gt; y
+    case Mul =&gt; true
+    case Div =&gt; (x % y == 0)
+  }
+
+  def values(e: Expr): List[Int] = e match {
+    case Val(n) =&gt; List(n)
+    case Aps(_, l, r) =&gt; values(l) ++ values(r)
+  }
+
+  //use List instead of Option
+  def eval(e: Expr): List[Int] = e match {
+    case Val(n) =&gt; if (n &gt; 0) List(n) else Nil
+    case Aps(o, l, r) =&gt; for {
+      x &lt;- eval(l)
+      y &lt;- eval(r) if valid(o, x, y) //else eval gets Nil
+    } yield o(x, y)
+  }
+
+  //combinatorial FNs
+  def subs[T](xs: List[T]): List[List[T]] = xs match {
+    case Nil =&gt; List(Nil)
+    case a :: as =&gt;
+      val ys = subs(as)
+      ys ++ ys.map(a :: _)
+  }
+  def interleave[T](x: T, xs: List[T]): List[List[T]] = xs match {
+    case Nil =&gt; List(List(x))
+    case y :: ys =&gt; (x :: xs) :: (interleave(x, ys).map(y :: _))
+  }
+  def perms[T](xs: List[T]): List[List[T]] = xs match {
+    case Nil =&gt; List(Nil)
+    case y :: ys =&gt; perms(ys).flatMap(interleave(y, _))
+  }
+  def choices[T](xs: List[T]): List[List[T]] = for {
+    ys &lt;- subs(xs)
+    zs &lt;- perms(ys)
+  } yield zs
+
+  //solution e for ns, n is correct?
+  def solution(e: Expr, ns: List[Int], n: Int): Boolean =
+    choices(ns).contains(values(e)) &amp;&amp; eval(e) == List(n)
+
+  //Brute force solution
+  def split(xs: List[Int]): List[(List[Int], List[Int])] = xs match {
+    case Nil =&gt; Nil
+    case a :: Nil =&gt; Nil
+    case a :: as =&gt; (List(a), as) :: (for {
+      (ls, rs) &lt;- split(as)
+    } yield (a :: ls, rs))
+  }
+  val ops = List(Add, Sub, Mul, Div)
+
+  def combine(l: Expr, r: Expr): List[Expr] = ops.map(Aps(_, l, r))
+
+  def exprs(ns: List[Int]): List[Expr] = ns match {
+    case Nil =&gt; Nil
+    case a :: Nil =&gt; List(Val(a))
+    case _ =&gt; for {
+      (ls, rs) &lt;- split(ns)
+      l &lt;- exprs(ls)
+      r &lt;- exprs(rs)
+      e &lt;- combine(l, r)
+    } yield e
+  }
+
+  def solutions(ns: List[Int], n: Int): List[Expr] = for {
+    ls &lt;- choices(ns)
+    e &lt;- exprs(ls) if eval(e) == List(n)
+  } yield e
+
+  //Combining generation and evaluation
+  type Result = (Expr, Int)
+
+  def combine2(r1: Result, r2: Result): List[Result] = {
+    val (l, x) = r1
+    val (r, y) = r2
+    ops.filter(valid(_, x, y)).map(o =&gt; (Aps(o, l, r), o(x, y)))
+  }
+
+  def results(is: List[Int]): List[Result] = is match {
+    case Nil =&gt; Nil
+    case n :: Nil =&gt; if (n &gt; 0) List((Val(n), n)) else Nil
+    case ns =&gt; for {
+      (ls, rs) &lt;- split(ns)
+      lx &lt;- results(ls)
+      ry &lt;- results(rs)
+      res &lt;- combine2(lx, ry)
+    } yield res
+  }
+
+  def solutions2(ns: List[Int], n: Int): List[Expr] = for {
+    xs &lt;- choices(ns)
+    (e, m) &lt;- results(xs) if m == n
+  } yield e
+
+
+  //Exploiting numeric properties
+  def valid2(op: Op, x: Int, y: Int): Boolean = op match {
+    case Add =&gt; x &lt;= y
+    case Sub =&gt; x &gt; y
+    case Mul =&gt; x != 1 &amp;&amp; y != 1 &amp;&amp; x &lt;= y
+    case Div =&gt; y != 1 &amp;&amp; (x % y == 0)
+  }
+
+  def combine3(r1: Result, r2: Result): List[Result] = {
+    val (l, x) = r1
+    val (r, y) = r2
+    ops.filter(valid2(_, x, y)).map(o =&gt; (Aps(o, l, r), o(x, y)))
+  }
+
+  def results2(is: List[Int]): List[Result] = is match {
+    case Nil =&gt; Nil
+    case n :: Nil =&gt; if (n &gt; 0) List((Val(n), n)) else Nil
+    case ns =&gt; for {
+      (ls, rs) &lt;- split(ns)
+      lx &lt;- results2(ls)
+      ry &lt;- results2(rs)
+      res &lt;- combine3(lx, ry)
+    } yield res
+  }
+
+  def solutions3(ns: List[Int], n: Int): List[Expr] = for {
+    xs &lt;- choices(ns)
+    (e, m) &lt;- results2(xs) if m == n
+  } yield e
+
+  val result = solutions3(List(3,5,7,12,18,20), 750)
+
+  println(result.length)
+
+  result foreach {
+    e =&gt; println(e)
+  }
+}
+</code></pre>
+
+<p>Both Haskell and Scala implementations computes the same result.</p>
+
+      </div>
+    </div>
+  </div>
   <div class="pure-u-1-24 pure-u-md-1-6"></div>
 </div>
 
@@ -468,7 +777,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="http://sangche.github.io/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
       <p id="foot-copyright">(c) 2016 - 2018</p>
