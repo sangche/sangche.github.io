@@ -404,7 +404,7 @@ body {
 <p>This <code>scala capstone project</code> is the last course of the Functional Programming in Scala Specialization Series from Coursera.
 This writing is about my implementation solution of the project, with a little bit of mathmatical model and performance measurements of the project. This project is composed of 6 milestones to implement a complete application which processes a lot of weather data, and then shows interactive visualization of the weather distribution around the world and its evolution over time on the web, like image below.</p>
 
-<p><img src="/img/pic0.png" alt="" /></p>
+<p><img src="/img/capstone1.png" alt="" /></p>
 
 <p>This image was captured from the interactive web page as my project implementation result. The implementaion code of each project milestone will be posted in my github, if it&rsquo;s OK with the Coursera&rsquo;s policy.</p>
 
@@ -508,13 +508,13 @@ target/temperatures/2015/0/0-0.png: 223062 milliseconds taken
 </code></pre>
 
 <p>It took more than 3 hours generating images of year 2015 alone.
-It would take a couple of days to generate all the images from 1975 to 2015 in my laptop,
-utilizing all of 4 cores.</p>
+It would take a couple of days to generate all the images from 1975 to 2015,
+utilizing all 4 cores of my laptop computer.</p>
 
-<p>I was afraid that it could crash my laptop over the course of such a CPU intensive, long running computation.
+<p>I was afraid that it could heat uplimit and crash my laptop over the course of such a CPU intensive, long running computation.
 So I interrupted the running process in the middle.</p>
 
-<p>Fortunately, there is a solution for this. Instead of using the inverse distance weighting algorithm for predicting temperatures, there is faster algorithm
+<p>Fortunately, there was a solution for this. Instead of using the inverse distance weighting algorithm for predicting temperatures, there is faster algorithm
 called <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation">bilinear interpolation</a>, at the cost of a little bit less quality of image.</p>
 
 <p>It first predicts 180(lat) by 360(lon) grid temperatures of the Earth surface using the inverse distance weighting algorithm, and then once you have this grid cached during the creation of the first image tile, predicting temperatures using bilinear interpolation algorithm is very fast for the creation of the subsequent tiles.</p>
@@ -575,20 +575,20 @@ target\temperatures\1975\1\1-1.png: 47 milliseconds taken
 
 <p>Note that it takes long time to build the first image(1975\0\0-0.png) as it needs to cache up grid data
 while generating the image. Once it caches grid, building subsequent images need no time as they are
-built based on the already cached grid when applying bilinear interpolation algorithm.</p>
-
-<p>It produced all images from 1975 to 2014 no longer 2 hours with my laptop!</p>
+built based on the already cached grid when applying bilinear interpolation algorithm.
+It produced all images from 1975 to 2014 no longer 2 hours with my laptop!</p>
 
 <p>One thing to note: the value <code>\(p\)</code> in <code>\(w_i(\mathbf x) = {1 \over d(\mathbf x, \mathbf x_i)^p}\)</code></p>
 
 <p>I tried from 2.0, 3.0, 4.0, 4.5, 5.0 for the value p, and I found value 4.5 is best performant.
-I posted the result of this project <a href="https://oldcook.github.io/capstone/interaction2.html">here</a> and if you look at the image of year 2013 you will see image with p value 2.0. I created year 2013 temperature image with p value 2.0 for experimental purpose. All other images are created with p value 4.5</p>
+I posted the result of this project <a href="http://sangche.github.io/capstone/interaction2.html">here</a> and if you look at the temperature image of year 2013(using the slide bar handle), you will see image with p value 2.0.
+I generated the image with p value 2.0 just for example purpose. All other images are created with p value 4.5</p>
 
-<p>There are other images that need to be generated in this porject. They are deviation images, which look something like below(from project homepage).</p>
+<p>There are other images that need to be generated in this porject. They are deviation images, which look something like below.</p>
 
-<p><img src="/img/blog/devi.png" alt="" /></p>
+<p><img src="/img/capstone2.png" alt="" /></p>
 
-<p>They are images of recent temperature changes from average temperature.
+<p>Deviation images are images of recent temperature changes from average temperature in the past.
 The average temperature is temperature averaging from year 1975 to 1989.
 This average temperature is considered <em>normal</em> and the deviation images
 show how much the tempertures have changed over each year from 1990 to 2015, compared to <em>normal</em> temperature.</p>
@@ -641,8 +641,8 @@ You just follow the instructions in the course and you will get idea.</p>
 
 <p>Once all the milestones are successfully passed by the grader, then you are ready to observe
 the global climate changes on the interactive web.
-Just follow the instruction in the final milestone and you will see
-something like my result <a href="https://oldcook.github.io/capstone/interaction2.html">here</a></p>
+Just follow the instruction in the final milestone and you will have an interactive image web,
+like my result <a href="https://sangche.github.io/capstone/interaction2.html">here</a>.</p>
 
 <script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
