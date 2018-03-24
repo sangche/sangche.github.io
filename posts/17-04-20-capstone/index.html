@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="utf-8">
+  <title>Functional Programming in Scala Capstone Project</title>
+  <meta name="description" content="Functional Programming in Scala Capstone Project">
+  <meta name="author" content="Sangche Hwang">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <noscript>
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://sangche.github.io/css/fonts.css">
+  </noscript>
+  
+  
+  <style type="text/css" media="screen">
+    /*!
+Pure v1.0.0
+Copyright 2013 Yahoo!
+Licensed under the BSD License.
+https://github.com/yahoo/pure/blob/master/LICENSE.md
+*/
+/*!
+normalize.css v^3.0 | MIT License | git.io/normalize
+Copyright (c) Nicolas Gallagher and Jonathan Neal
+*/
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */img,legend{border:0}legend,td,th{padding:0}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,optgroup,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre,textarea{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}table{border-collapse:collapse;border-spacing:0}.hidden,[hidden]{display:none!important}.pure-img{max-width:100%;height:auto;display:block}
+  </style>
+  <style type="text/css" media="screen">
+    /*!
+Pure v1.0.0
+Copyright 2013 Yahoo!
+Licensed under the BSD License.
+https://github.com/yahoo/pure/blob/master/LICENSE.md
+*/
+.pure-menu{box-sizing:border-box}.pure-menu-fixed{position:fixed;left:0;top:0;z-index:3}.pure-menu-item,.pure-menu-list{position:relative}.pure-menu-list{list-style:none;margin:0;padding:0}.pure-menu-item{padding:0;margin:0;height:100%}.pure-menu-heading,.pure-menu-link{display:block;text-decoration:none;white-space:nowrap}.pure-menu-horizontal{width:100%;white-space:nowrap}.pure-menu-horizontal .pure-menu-list{display:inline-block}.pure-menu-horizontal .pure-menu-heading,.pure-menu-horizontal .pure-menu-item,.pure-menu-horizontal .pure-menu-separator{display:inline-block;zoom:1;vertical-align:middle}.pure-menu-item .pure-menu-item{display:block}.pure-menu-children{display:none;position:absolute;left:100%;top:0;margin:0;padding:0;z-index:3}.pure-menu-horizontal .pure-menu-children{left:0;top:auto;width:inherit}.pure-menu-active>.pure-menu-children,.pure-menu-allow-hover:hover>.pure-menu-children{display:block;position:absolute}.pure-menu-has-children>.pure-menu-link:after{padding-left:.5em;content:"\25B8";font-size:small}.pure-menu-horizontal .pure-menu-has-children>.pure-menu-link:after{content:"\25BE"}.pure-menu-scrollable{overflow-y:scroll;overflow-x:hidden}.pure-menu-scrollable .pure-menu-list{display:block}.pure-menu-horizontal.pure-menu-scrollable .pure-menu-list{display:inline-block}.pure-menu-horizontal.pure-menu-scrollable{white-space:nowrap;overflow-y:hidden;overflow-x:auto;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;padding:.5em 0}.pure-menu-horizontal.pure-menu-scrollable::-webkit-scrollbar{display:none}.pure-menu-horizontal .pure-menu-children .pure-menu-separator,.pure-menu-separator{background-color:#ccc;height:1px;margin:.3em 0}.pure-menu-horizontal .pure-menu-separator{width:1px;height:1.3em;margin:0 .3em}.pure-menu-horizontal .pure-menu-children .pure-menu-separator{display:block;width:auto}.pure-menu-heading{text-transform:uppercase;color:#565d64}.pure-menu-link{color:#777}.pure-menu-children{background-color:#fff}.pure-menu-disabled,.pure-menu-heading,.pure-menu-link{padding:.5em 1em}.pure-menu-disabled{opacity:.5}.pure-menu-disabled .pure-menu-link:hover{background-color:transparent}.pure-menu-active>.pure-menu-link,.pure-menu-link:focus,.pure-menu-link:hover{background-color:#eee}.pure-menu-selected .pure-menu-link,.pure-menu-selected .pure-menu-link:visited{color:#000}
+  </style>
+  <style type="text/css" media="screen">
+    /*!
+Pure v1.0.0
+Copyright 2013 Yahoo!
+Licensed under the BSD License.
+https://github.com/yahoo/pure/blob/master/LICENSE.md
+*/
+.pure-g{letter-spacing:-.31em;text-rendering:optimizespeed;font-family:FreeSans,Arimo,"Droid Sans",Helvetica,Arial,sans-serif;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-flow:row wrap;-ms-flex-flow:row wrap;flex-flow:row wrap;-webkit-align-content:flex-start;-ms-flex-line-pack:start;align-content:flex-start}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){table .pure-g{display:block}}.opera-only :-o-prefocus,.pure-g{word-spacing:-.43em}.pure-u,.pure-u-1,.pure-u-1-1,.pure-u-1-12,.pure-u-1-2,.pure-u-1-24,.pure-u-1-3,.pure-u-1-4,.pure-u-1-5,.pure-u-1-6,.pure-u-1-8,.pure-u-10-24,.pure-u-11-12,.pure-u-11-24,.pure-u-12-24,.pure-u-13-24,.pure-u-14-24,.pure-u-15-24,.pure-u-16-24,.pure-u-17-24,.pure-u-18-24,.pure-u-19-24,.pure-u-2-24,.pure-u-2-3,.pure-u-2-5,.pure-u-20-24,.pure-u-21-24,.pure-u-22-24,.pure-u-23-24,.pure-u-24-24,.pure-u-3-24,.pure-u-3-4,.pure-u-3-5,.pure-u-3-8,.pure-u-4-24,.pure-u-4-5,.pure-u-5-12,.pure-u-5-24,.pure-u-5-5,.pure-u-5-6,.pure-u-5-8,.pure-u-6-24,.pure-u-7-12,.pure-u-7-24,.pure-u-7-8,.pure-u-8-24,.pure-u-9-24{display:inline-block;zoom:1;letter-spacing:normal;word-spacing:normal;vertical-align:top;text-rendering:auto}.pure-g [class*=pure-u]{font-family:sans-serif}.pure-u-1-24{width:4.1667%}.pure-u-1-12,.pure-u-2-24{width:8.3333%}.pure-u-1-8,.pure-u-3-24{width:12.5%}.pure-u-1-6,.pure-u-4-24{width:16.6667%}.pure-u-1-5{width:20%}.pure-u-5-24{width:20.8333%}.pure-u-1-4,.pure-u-6-24{width:25%}.pure-u-7-24{width:29.1667%}.pure-u-1-3,.pure-u-8-24{width:33.3333%}.pure-u-3-8,.pure-u-9-24{width:37.5%}.pure-u-2-5{width:40%}.pure-u-10-24,.pure-u-5-12{width:41.6667%}.pure-u-11-24{width:45.8333%}.pure-u-1-2,.pure-u-12-24{width:50%}.pure-u-13-24{width:54.1667%}.pure-u-14-24,.pure-u-7-12{width:58.3333%}.pure-u-3-5{width:60%}.pure-u-15-24,.pure-u-5-8{width:62.5%}.pure-u-16-24,.pure-u-2-3{width:66.6667%}.pure-u-17-24{width:70.8333%}.pure-u-18-24,.pure-u-3-4{width:75%}.pure-u-19-24{width:79.1667%}.pure-u-4-5{width:80%}.pure-u-20-24,.pure-u-5-6{width:83.3333%}.pure-u-21-24,.pure-u-7-8{width:87.5%}.pure-u-11-12,.pure-u-22-24{width:91.6667%}.pure-u-23-24{width:95.8333%}.pure-u-1,.pure-u-1-1,.pure-u-24-24,.pure-u-5-5{width:100%}
+  </style>
+  
+  
+  <style type="text/css" media="screen">
+    /*!
+Pure v1.0.0
+Copyright 2013 Yahoo!
+Licensed under the BSD License.
+https://github.com/yahoo/pure/blob/master/LICENSE.md
+*/
+@media screen and (min-width:35.5em){.pure-u-sm-1,.pure-u-sm-1-1,.pure-u-sm-1-12,.pure-u-sm-1-2,.pure-u-sm-1-24,.pure-u-sm-1-3,.pure-u-sm-1-4,.pure-u-sm-1-5,.pure-u-sm-1-6,.pure-u-sm-1-8,.pure-u-sm-10-24,.pure-u-sm-11-12,.pure-u-sm-11-24,.pure-u-sm-12-24,.pure-u-sm-13-24,.pure-u-sm-14-24,.pure-u-sm-15-24,.pure-u-sm-16-24,.pure-u-sm-17-24,.pure-u-sm-18-24,.pure-u-sm-19-24,.pure-u-sm-2-24,.pure-u-sm-2-3,.pure-u-sm-2-5,.pure-u-sm-20-24,.pure-u-sm-21-24,.pure-u-sm-22-24,.pure-u-sm-23-24,.pure-u-sm-24-24,.pure-u-sm-3-24,.pure-u-sm-3-4,.pure-u-sm-3-5,.pure-u-sm-3-8,.pure-u-sm-4-24,.pure-u-sm-4-5,.pure-u-sm-5-12,.pure-u-sm-5-24,.pure-u-sm-5-5,.pure-u-sm-5-6,.pure-u-sm-5-8,.pure-u-sm-6-24,.pure-u-sm-7-12,.pure-u-sm-7-24,.pure-u-sm-7-8,.pure-u-sm-8-24,.pure-u-sm-9-24{display:inline-block;zoom:1;letter-spacing:normal;word-spacing:normal;vertical-align:top;text-rendering:auto}.pure-u-sm-1-24{width:4.1667%}.pure-u-sm-1-12,.pure-u-sm-2-24{width:8.3333%}.pure-u-sm-1-8,.pure-u-sm-3-24{width:12.5%}.pure-u-sm-1-6,.pure-u-sm-4-24{width:16.6667%}.pure-u-sm-1-5{width:20%}.pure-u-sm-5-24{width:20.8333%}.pure-u-sm-1-4,.pure-u-sm-6-24{width:25%}.pure-u-sm-7-24{width:29.1667%}.pure-u-sm-1-3,.pure-u-sm-8-24{width:33.3333%}.pure-u-sm-3-8,.pure-u-sm-9-24{width:37.5%}.pure-u-sm-2-5{width:40%}.pure-u-sm-10-24,.pure-u-sm-5-12{width:41.6667%}.pure-u-sm-11-24{width:45.8333%}.pure-u-sm-1-2,.pure-u-sm-12-24{width:50%}.pure-u-sm-13-24{width:54.1667%}.pure-u-sm-14-24,.pure-u-sm-7-12{width:58.3333%}.pure-u-sm-3-5{width:60%}.pure-u-sm-15-24,.pure-u-sm-5-8{width:62.5%}.pure-u-sm-16-24,.pure-u-sm-2-3{width:66.6667%}.pure-u-sm-17-24{width:70.8333%}.pure-u-sm-18-24,.pure-u-sm-3-4{width:75%}.pure-u-sm-19-24{width:79.1667%}.pure-u-sm-4-5{width:80%}.pure-u-sm-20-24,.pure-u-sm-5-6{width:83.3333%}.pure-u-sm-21-24,.pure-u-sm-7-8{width:87.5%}.pure-u-sm-11-12,.pure-u-sm-22-24{width:91.6667%}.pure-u-sm-23-24{width:95.8333%}.pure-u-sm-1,.pure-u-sm-1-1,.pure-u-sm-24-24,.pure-u-sm-5-5{width:100%}}@media screen and (min-width:48em){.pure-u-md-1,.pure-u-md-1-1,.pure-u-md-1-12,.pure-u-md-1-2,.pure-u-md-1-24,.pure-u-md-1-3,.pure-u-md-1-4,.pure-u-md-1-5,.pure-u-md-1-6,.pure-u-md-1-8,.pure-u-md-10-24,.pure-u-md-11-12,.pure-u-md-11-24,.pure-u-md-12-24,.pure-u-md-13-24,.pure-u-md-14-24,.pure-u-md-15-24,.pure-u-md-16-24,.pure-u-md-17-24,.pure-u-md-18-24,.pure-u-md-19-24,.pure-u-md-2-24,.pure-u-md-2-3,.pure-u-md-2-5,.pure-u-md-20-24,.pure-u-md-21-24,.pure-u-md-22-24,.pure-u-md-23-24,.pure-u-md-24-24,.pure-u-md-3-24,.pure-u-md-3-4,.pure-u-md-3-5,.pure-u-md-3-8,.pure-u-md-4-24,.pure-u-md-4-5,.pure-u-md-5-12,.pure-u-md-5-24,.pure-u-md-5-5,.pure-u-md-5-6,.pure-u-md-5-8,.pure-u-md-6-24,.pure-u-md-7-12,.pure-u-md-7-24,.pure-u-md-7-8,.pure-u-md-8-24,.pure-u-md-9-24{display:inline-block;zoom:1;letter-spacing:normal;word-spacing:normal;vertical-align:top;text-rendering:auto}.pure-u-md-1-24{width:4.1667%}.pure-u-md-1-12,.pure-u-md-2-24{width:8.3333%}.pure-u-md-1-8,.pure-u-md-3-24{width:12.5%}.pure-u-md-1-6,.pure-u-md-4-24{width:16.6667%}.pure-u-md-1-5{width:20%}.pure-u-md-5-24{width:20.8333%}.pure-u-md-1-4,.pure-u-md-6-24{width:25%}.pure-u-md-7-24{width:29.1667%}.pure-u-md-1-3,.pure-u-md-8-24{width:33.3333%}.pure-u-md-3-8,.pure-u-md-9-24{width:37.5%}.pure-u-md-2-5{width:40%}.pure-u-md-10-24,.pure-u-md-5-12{width:41.6667%}.pure-u-md-11-24{width:45.8333%}.pure-u-md-1-2,.pure-u-md-12-24{width:50%}.pure-u-md-13-24{width:54.1667%}.pure-u-md-14-24,.pure-u-md-7-12{width:58.3333%}.pure-u-md-3-5{width:60%}.pure-u-md-15-24,.pure-u-md-5-8{width:62.5%}.pure-u-md-16-24,.pure-u-md-2-3{width:66.6667%}.pure-u-md-17-24{width:70.8333%}.pure-u-md-18-24,.pure-u-md-3-4{width:75%}.pure-u-md-19-24{width:79.1667%}.pure-u-md-4-5{width:80%}.pure-u-md-20-24,.pure-u-md-5-6{width:83.3333%}.pure-u-md-21-24,.pure-u-md-7-8{width:87.5%}.pure-u-md-11-12,.pure-u-md-22-24{width:91.6667%}.pure-u-md-23-24{width:95.8333%}.pure-u-md-1,.pure-u-md-1-1,.pure-u-md-24-24,.pure-u-md-5-5{width:100%}}@media screen and (min-width:64em){.pure-u-lg-1,.pure-u-lg-1-1,.pure-u-lg-1-12,.pure-u-lg-1-2,.pure-u-lg-1-24,.pure-u-lg-1-3,.pure-u-lg-1-4,.pure-u-lg-1-5,.pure-u-lg-1-6,.pure-u-lg-1-8,.pure-u-lg-10-24,.pure-u-lg-11-12,.pure-u-lg-11-24,.pure-u-lg-12-24,.pure-u-lg-13-24,.pure-u-lg-14-24,.pure-u-lg-15-24,.pure-u-lg-16-24,.pure-u-lg-17-24,.pure-u-lg-18-24,.pure-u-lg-19-24,.pure-u-lg-2-24,.pure-u-lg-2-3,.pure-u-lg-2-5,.pure-u-lg-20-24,.pure-u-lg-21-24,.pure-u-lg-22-24,.pure-u-lg-23-24,.pure-u-lg-24-24,.pure-u-lg-3-24,.pure-u-lg-3-4,.pure-u-lg-3-5,.pure-u-lg-3-8,.pure-u-lg-4-24,.pure-u-lg-4-5,.pure-u-lg-5-12,.pure-u-lg-5-24,.pure-u-lg-5-5,.pure-u-lg-5-6,.pure-u-lg-5-8,.pure-u-lg-6-24,.pure-u-lg-7-12,.pure-u-lg-7-24,.pure-u-lg-7-8,.pure-u-lg-8-24,.pure-u-lg-9-24{display:inline-block;zoom:1;letter-spacing:normal;word-spacing:normal;vertical-align:top;text-rendering:auto}.pure-u-lg-1-24{width:4.1667%}.pure-u-lg-1-12,.pure-u-lg-2-24{width:8.3333%}.pure-u-lg-1-8,.pure-u-lg-3-24{width:12.5%}.pure-u-lg-1-6,.pure-u-lg-4-24{width:16.6667%}.pure-u-lg-1-5{width:20%}.pure-u-lg-5-24{width:20.8333%}.pure-u-lg-1-4,.pure-u-lg-6-24{width:25%}.pure-u-lg-7-24{width:29.1667%}.pure-u-lg-1-3,.pure-u-lg-8-24{width:33.3333%}.pure-u-lg-3-8,.pure-u-lg-9-24{width:37.5%}.pure-u-lg-2-5{width:40%}.pure-u-lg-10-24,.pure-u-lg-5-12{width:41.6667%}.pure-u-lg-11-24{width:45.8333%}.pure-u-lg-1-2,.pure-u-lg-12-24{width:50%}.pure-u-lg-13-24{width:54.1667%}.pure-u-lg-14-24,.pure-u-lg-7-12{width:58.3333%}.pure-u-lg-3-5{width:60%}.pure-u-lg-15-24,.pure-u-lg-5-8{width:62.5%}.pure-u-lg-16-24,.pure-u-lg-2-3{width:66.6667%}.pure-u-lg-17-24{width:70.8333%}.pure-u-lg-18-24,.pure-u-lg-3-4{width:75%}.pure-u-lg-19-24{width:79.1667%}.pure-u-lg-4-5{width:80%}.pure-u-lg-20-24,.pure-u-lg-5-6{width:83.3333%}.pure-u-lg-21-24,.pure-u-lg-7-8{width:87.5%}.pure-u-lg-11-12,.pure-u-lg-22-24{width:91.6667%}.pure-u-lg-23-24{width:95.8333%}.pure-u-lg-1,.pure-u-lg-1-1,.pure-u-lg-24-24,.pure-u-lg-5-5{width:100%}}@media screen and (min-width:80em){.pure-u-xl-1,.pure-u-xl-1-1,.pure-u-xl-1-12,.pure-u-xl-1-2,.pure-u-xl-1-24,.pure-u-xl-1-3,.pure-u-xl-1-4,.pure-u-xl-1-5,.pure-u-xl-1-6,.pure-u-xl-1-8,.pure-u-xl-10-24,.pure-u-xl-11-12,.pure-u-xl-11-24,.pure-u-xl-12-24,.pure-u-xl-13-24,.pure-u-xl-14-24,.pure-u-xl-15-24,.pure-u-xl-16-24,.pure-u-xl-17-24,.pure-u-xl-18-24,.pure-u-xl-19-24,.pure-u-xl-2-24,.pure-u-xl-2-3,.pure-u-xl-2-5,.pure-u-xl-20-24,.pure-u-xl-21-24,.pure-u-xl-22-24,.pure-u-xl-23-24,.pure-u-xl-24-24,.pure-u-xl-3-24,.pure-u-xl-3-4,.pure-u-xl-3-5,.pure-u-xl-3-8,.pure-u-xl-4-24,.pure-u-xl-4-5,.pure-u-xl-5-12,.pure-u-xl-5-24,.pure-u-xl-5-5,.pure-u-xl-5-6,.pure-u-xl-5-8,.pure-u-xl-6-24,.pure-u-xl-7-12,.pure-u-xl-7-24,.pure-u-xl-7-8,.pure-u-xl-8-24,.pure-u-xl-9-24{display:inline-block;zoom:1;letter-spacing:normal;word-spacing:normal;vertical-align:top;text-rendering:auto}.pure-u-xl-1-24{width:4.1667%}.pure-u-xl-1-12,.pure-u-xl-2-24{width:8.3333%}.pure-u-xl-1-8,.pure-u-xl-3-24{width:12.5%}.pure-u-xl-1-6,.pure-u-xl-4-24{width:16.6667%}.pure-u-xl-1-5{width:20%}.pure-u-xl-5-24{width:20.8333%}.pure-u-xl-1-4,.pure-u-xl-6-24{width:25%}.pure-u-xl-7-24{width:29.1667%}.pure-u-xl-1-3,.pure-u-xl-8-24{width:33.3333%}.pure-u-xl-3-8,.pure-u-xl-9-24{width:37.5%}.pure-u-xl-2-5{width:40%}.pure-u-xl-10-24,.pure-u-xl-5-12{width:41.6667%}.pure-u-xl-11-24{width:45.8333%}.pure-u-xl-1-2,.pure-u-xl-12-24{width:50%}.pure-u-xl-13-24{width:54.1667%}.pure-u-xl-14-24,.pure-u-xl-7-12{width:58.3333%}.pure-u-xl-3-5{width:60%}.pure-u-xl-15-24,.pure-u-xl-5-8{width:62.5%}.pure-u-xl-16-24,.pure-u-xl-2-3{width:66.6667%}.pure-u-xl-17-24{width:70.8333%}.pure-u-xl-18-24,.pure-u-xl-3-4{width:75%}.pure-u-xl-19-24{width:79.1667%}.pure-u-xl-4-5{width:80%}.pure-u-xl-20-24,.pure-u-xl-5-6{width:83.3333%}.pure-u-xl-21-24,.pure-u-xl-7-8{width:87.5%}.pure-u-xl-11-12,.pure-u-xl-22-24{width:91.6667%}.pure-u-xl-23-24{width:95.8333%}.pure-u-xl-1,.pure-u-xl-1-1,.pure-u-xl-24-24,.pure-u-xl-5-5{width:100%}}
+  </style>
+  
+
+  
+  <style type="text/css" media="screen">
+    html {
+	min-height:100%;
+	width:100%;
+	position:relative;
+}
+
+body {
+	background-color: rgb(252,252,252);
+	color: #484848;
+}
+
+.nav-menu {
+  margin-top: 5px;
+  padding-bottom: 5px;
+	border-bottom: 1px solid #e3e3e3;
+}
+
+.pure-menu-heading {
+  text-transform: none;
+  font-size: large;
+}
+
+.header {
+	text-align: left;
+	color: #484848;
+	margin-bottom: .5em;
+}
+
+.header ul li {
+		height: auto;
+}
+
+.header ul li a {
+	font-weight: bold;
+	color: #484848;
+	font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.header {
+	font-weight: bold;
+	color: #484848;
+	font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.site-title {
+	color: #484848;
+  text-transform: none;
+  font-weight: normal;
+	font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.pull-right {
+	float: right;
+}
+
+.posts-name {
+	text-transform: capitalize;
+	font-weight: bold;
+	padding-left: 1em;
+	margin-top: 1em;
+	font-family: "Source Sans Pro", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.posts {
+	font-family: verdana,arial,helvetica,sans-serif;
+	list-style-type:none;
+	padding-left: 1em;
+}
+
+.posts li p {
+	margin-top: 0;
+}
+
+.posts li {
+	margin-bottom: 1em;
+}
+
+.posts li a {
+	color:#369;
+	text-decoration:none;
+}
+
+.post-list {
+  font-size: large;
+}
+
+.footnote {
+	font-family: verdana,arial,helvetica,sans-serif;
+	color:#888;
+	font-size:x-small;
+	margin-bottom:0;
+}
+
+.footnote a {
+	color: #888 !important
+}
+
+.footnote a:hover{
+	text-decoration:underline;
+	color:#369;
+}
+
+.footer {
+	position:absolute;
+	z-index:2;
+	height:auto;
+	width:100%;
+	bottom:0;
+}
+
+.footer-content {
+	border-top: 1px solid #e3e3e3;
+	font-size: 80%;
+	color: #bbb;
+}
+
+.footer-content a {
+	color: #bbb;
+}
+
+.footer-content ul {
+	height: auto;
+	margin-top: 0;
+	margin-bottom: 0;
+	display: inline-block;
+	padding-left: 0;
+}
+
+#gototop-btn {
+	display: inline-block;
+}
+
+#foot-name {
+  color: #484848;
+	text-transform: none;
+}
+
+#foot-copyright {
+	padding-left: 1em;
+	padding-bottom: 0.5em;
+	margin: 0;
+}
+
+.post {
+	font-family: Helvetica,Roboto,Arial,sans-serif,proxima-nova,"Helvetica Neue";
+	color:#484848;
+	letter-spacing:normal;
+	padding-left: .5em;
+}
+
+.post h1,h2,h3,h4,h5,h6 {
+	font-weight: bold;
+	letter-spacing:normal;
+}
+
+.post-content {
+	z-index:9;
+	overflow:auto;
+	padding:0;
+	padding-bottom:3em;
+	font-size:16px;
+	line-height:1.4;
+}
+
+.post-content img {
+	max-width: 100%;
+	height: auto;
+}
+
+.post-content code {
+  background-color: #EEE;
+  font-size:14px;
+}
+
+.post code {
+  background-color: #EEE;
+  font-size:14px;
+}
+
+.post a {
+	color:#c05b4d;
+	text-decoration: none;
+}
+
+.post a:hover {
+	color:#a5473a;
+	text-decoration: underline;
+}
+
+.post h1 {
+	font-size:28px;
+}
+
+.post h2 {
+	font-size:25px;
+}
+
+.post h3 {
+	font-size:23px;
+}
+
+.post h4 {
+	font-size:21px;
+}
+
+.post h5 {
+	font-size:19px;
+}
+
+.post h6 {
+	font-size:18px;
+}
+
+.post-title{
+		margin-top: 0;
+		margin-bottom: 2em;
+}
+
+.post-title h1 {
+	font-weight:bold;
+	font-size:39px;
+	line-height: 40px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+@media screen and (max-width:767px){
+	.desktop {
+		display: none;
+	}
+	.mobile {
+		display: block;
+	}
+	#toggle-btn {
+		display: inline-block;
+		float: right;
+		padding: .5em 1em;
+		text-decoration: none;
+		color: #484848;
+		font-weight: bold;
+	}
+	#toggle-content li {
+		clear: both;
+		height: auto;
+		background-color: rgb(249,249,249);
+	}
+	#toggle-home {
+		display: inline-block;
+	}
+}
+
+@media screen and (min-width:768px){
+	.mobile {
+		display:none;
+	}
+	.desktop {
+		display: block;
+	}
+}
+
+  </style>
+  
+  <style type="text/css" media="screen"> 
+    
+      .hljs{display:block;overflow-x:auto;padding:0.5em;color:#000;background:#f8f8ff}.hljs-comment,.hljs-quote{color:#408080;font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-subst{color:#954121}.hljs-number{color:#40a070}.hljs-string,.hljs-doctag{color:#219161}.hljs-selector-id,.hljs-selector-class,.hljs-section,.hljs-type{color:#19469d}.hljs-params{color:#00f}.hljs-title{color:#458;font-weight:bold}.hljs-tag,.hljs-name,.hljs-attribute{color:#000080;font-weight:normal}.hljs-variable,.hljs-template-variable{color:#008080}.hljs-regexp,.hljs-link{color:#b68}.hljs-symbol,.hljs-bullet{color:#990073}.hljs-built_in,.hljs-builtin-name{color:#0086b3}.hljs-meta{color:#999;font-weight:bold}.hljs-deletion{background:#fdd}.hljs-addition{background:#dfd}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
+    
+  </style>
+
+  
+  <link rel="shortcut icon" 
+   
+    href="http://sangche.github.io/img/favicon.ico"
+  
+  type="image/x-icon">
+
+  
+  
+
+  <meta name="generator" content="Hugo 0.36.1" />
+  
+</head>
+<body>
+
+<div class="header pure-g">
+    <div class="pure-u-1-24 pure-u-md-1-6"></div>
+    <div class="pure-u-11-12 pure-u-md-2-3">
+        <div class="desktop pure-menu pure-menu-horizontal nav-menu">
+            
+            <a href="http://sangche.github.io/" class="site-title pure-menu-heading">Post Listing</a>
+            <ul class="pure-menu-list pull-right">
+				
+                
+				
+                <li class="pure-menu-item">
+                    <a href="http://sangche.github.io/about/" class="pure-menu-link">About</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mobile pure-menu nav-menu">
+            <a href="/" class="site-title pure-menu-heading" id="toggle-home">Post Listing</a>
+            <a href="#" id="toggle-btn">&#9776;</a>
+            <ul class="pure-menu-list" id="toggle-content" style="display:none;">
+                
+				
+                
+				
+                <li class="pure-menu-item">
+                    <a href="http://sangche.github.io/about" class="pure-menu-link">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pure-u-1-24 pure-u-md-1-6"></div>
+</div>
+
+
+<div class="pure-g">
+  <div class="pure-u-1-24 pure-u-md-1-6"></div>
+  <div class="pure-u-11-12 pure-u-md-2-3">
+    <div class="post">
+
+      <div class="post-title">
+        <p class="footnote">
+        <time class="">04-20-2017</time>
+        
+        
+        
+
+        
+
+        
+        </p>
+        <h1>Functional Programming in Scala Capstone Project</h1>
+      </div>
+
+      <div class="post-content">
+        <p><link rel="stylesheet" href="/highlight/styles/darcular.css">
+<script src="/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script></p>
+
+<p>This <code>scala capstone project</code> is the last course of the Functional Programming in Scala Specialization Series from Coursera.
+This writing is about my implementation solution of the project, with a little bit of mathmatical model and performance measurements of the project. This project is composed of 6 milestones to implement a complete application which processes a lot of weather data, and then shows interactive visualization of the weather distribution around the world and its evolution over time on the web, like image below.</p>
+
+<p><img src="/img/pic0.png" alt="" /></p>
+
+<p>This image was captured from the interactive web page as my project implementation result. The implementaion code of each project milestone will be posted in my github, if it&rsquo;s OK with the Coursera&rsquo;s policy.</p>
+
+<p>The development of the application in this project involves transforming data collected in weather stations around the world into meaningful information such as the average temperature of each year.
+It then produces world temperature images using spatial and linear interpolation techniques and finally, implements the user interface that reacts to the user&rsquo;s actions.</p>
+
+<p>This application is very CPU intensive in that it uses CPU intensive mathmatical model to build a lot of image tiles of weather map around the world. My initial implementation of image creation part took more than 2 hours to compute every tiles for year 2015 alone with my laptop computer.</p>
+
+<p>In the capstone project, temperature data measured from the year 1975 to 2015 were given in csv files. The application reads these csv data files and then based on this data, it mathmatically predicts temperature values of each pixel in a tile(256x256 pixels) to produce world temperature images like picture above.</p>
+
+<p>Milestone 1 through 5 of this project are to generate tiles of temperature images for zoom level 0, 1, 2 and 3 for each year from 1975 to 2015. Level 0 generates 1 tile, level 1 generates 4 tiles, level 2 generates 16 tiles, and level 3 generates 64 tiles, to cover the global tmeperature images. The last milestone is to implement interactive web using <code>Reactive Signal</code> and <code>ScalaJS</code>.</p>
+
+<p>Predicting temperatures of every pixel point around the world is based on <a href="https://en.wikipedia.org/wiki/Inverse_distance_weighting">the inverse distance weighting algorithm</a> using sample temperature data in csv files.</p>
+
+<p>Mathmatically, predicted temperature at any location <code>\(\mathbf x\)</code> on the surface of the Earth,
+denoted by <code>\(u(\mathbf x)\)</code>, is</p>
+
+<p>$$u(\mathbf x) = {\sum_{i=1}^N w_i(\mathbf x)u_i \over \sum_i^N w_i(\mathbf x)}$$</p>
+
+<p>where
+$$w_i(\mathbf x) = {1 \over d(\mathbf x, \mathbf x_i)^p}$$</p>
+
+<p>and <code>\(N\)</code> is total number of sample temperatures given in csv files.</p>
+
+<p>Here, <code>\(p \ge 2.0\)</code>(more about this value later), and the distance of the shortest path between point <code>\(\mathbf x\)</code> and point <code>\(\mathbf x_i\)</code> on the surface of the Earth</p>
+
+<p>$$d(\mathbf x, \mathbf x_i) = r\Delta\sigma$$
+where Earth Radius <code>\(r = 6371km\)</code>, and
+$$\Delta\sigma = arccos(sin\phi_1sin\phi_2 + cos\phi_1cos\phi_2cos(\Delta\lambda))$$</p>
+
+<p>where <code>\(\phi_1, \lambda_1\)</code> and <code>\(\phi_2, \lambda_2\)</code> are the geographical latitude and longitude of two points <code>\(\mathbf x\)</code> and <code>\(\mathbf x_i\)</code>, illustrated in the image below as P and Q.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Central_angle.svg/330px-Central_angle.svg.png" alt="" /></p>
+
+<p>Refer to <a href="https://en.wikipedia.org/wiki/Great-circle_distance">here</a> for more information on Great-circle distance.</p>
+
+<p>In case <code>\(d(\mathbf x, \mathbf x_i) \le 1km\)</code>, then <code>\(u(\mathbf x) = u_i\)</code> which means that predicted temperature value of the location near measured location is approximately the measured temperature value.</p>
+
+<p>Again, <code>\(u(\mathbf x)\)</code> is predicted temperature at location <code>\(\mathbf x\)</code> with latitude <code>\(\phi\)</code> and longitude <code>\(\lambda\)</code>.</p>
+
+<p>Processing mathmatical formula like this in Scala is not that difficult, but generating a lot of images using this formula is very CPU intensive and takes long time.</p>
+
+<p>Also, to pass the grader of the project, the implementation of APIs in each milestone must perform fast, utilizing all of your CPU cores in parallel and memory space optimally, as the grader restricts run-time and memory space.</p>
+
+<p>The project comes with SBT build settings that include <code>Spark, Akka Streams, Monix</code> and <code>fs2</code> as parallel and distributed computing tools. But they are optional.
+I used Spark for data join and other operations against temperature data at first, but Spark is actually <code>distributed</code> parallel computation framework.</p>
+
+<p>Since I have only one laptop, using Spark didn&rsquo;t make sense for gaining performance as managing spark context overhead in a single node costs more than gaining performance over spark parallelism.<br />
+I could have deployed Spark cluster on AWS EC2 nodes and run my application on it.
+But fortunately, using scala standard parallel collection library was enough to pass the grader successfully to get full score of <sup>10</sup>&frasl;<sub>10</sub>.</p>
+
+<p>The mathmatical formula above to compute <code>\(u(\mathbf x)\)</code> allows you to do data parallel map computation against the collection of sample temperatues. Once the parallel map computation is done, you can then sum the result collection
+up to calculate <code>\(u(\mathbf x)\)</code>.</p>
+
+<p>In fact, there are other places in implementation code appropriate to parallelize computing and this is one of them.
+But it should be noted that parallelism should be applied only when the size of data exceeds certain threshold, because applying too many parallelism can cause computing overhead, hence performance degradation.</p>
+
+<p>Once each milestone API is implemented, they are used to generate the tiles of images and check performance of the solution in the Main object.</p>
+
+<pre><code class="language-scala">object Main extends App {
+  import Extraction._
+  import Visualization._
+  import Interaction._
+
+  def time[R](block: =&gt; R): (R, String) = {
+    val start = System.currentTimeMillis()
+    val result = block
+    val end = System.currentTimeMillis()
+    (result, s&quot;${end - start}&quot;)
+  }
+
+  val colorScale = Seq((60d, Color(255, 255, 255)), (32d, Color(255, 0, 0)), 
+    (12d, Color(255, 255, 0)), (0d, Color(0, 255, 255)),(-15d, Color(0, 0, 255)), 
+    (-27d, Color(255, 0, 255)), (-50d, Color(33, 0, 107)), (-60d, Color(0, 0, 0)))
+
+  //callback to create tiles of world temperature image
+  def callmeBack(year: Int, zoom: Int, x: Int, y: Int, 
+                 data: Iterable[(Location, Double)]): Unit = {
+    val (image, timeTaken) = time(tile(data, colorScale, zoom, x, y))
+    val path = image.output(s&quot;target/temperatures/${year}/${zoom}/${x}-${y}.png&quot;)
+    println(s&quot;$path: $timeTaken milliseconds taken&quot;)
+  }
+
+  val yearlyData = (2015 to 1975 by -1).map { y =&gt;
+    (y, locationYearlyAverageRecords(locateTemperatures(y, &quot;/stations.csv&quot;, s&quot;/${y}.csv&quot;)))
+  }
+
+  generateTiles(yearlyData, callmeBack)
+}
+</code></pre>
+
+<p>Generating images together with predicting temperatures using the inverse distance weighting algorithm takes a lot of time.
+Console output of the program looks like below.</p>
+
+<pre><code class="language-bash">target/temperatures/2015/0/0-0.png: 283487 milliseconds taken
+target/temperatures/2015/0/0-0.png: 259291 milliseconds taken
+target/temperatures/2015/0/0-0.png: 243637 milliseconds taken
+target/temperatures/2015/0/0-0.png: 289483 milliseconds taken
+target/temperatures/2015/0/0-0.png: 223062 milliseconds taken
+....
+</code></pre>
+
+<p>It took more than 3 hours generating images of year 2015 alone.
+It would take a couple of days to generate all the images from 1975 to 2015 in my laptop,
+utilizing all of 4 cores.</p>
+
+<p>I was afraid that it could crash my laptop over the course of such a CPU intensive, long running computation.
+So I interrupted the running process in the middle.</p>
+
+<p>Fortunately, there is a solution for this. Instead of using the inverse distance weighting algorithm for predicting temperatures, there is faster algorithm
+called <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation">bilinear interpolation</a>, at the cost of a little bit less quality of image.</p>
+
+<p>It first predicts 180(lat) by 360(lon) grid temperatures of the Earth surface using the inverse distance weighting algorithm, and then once you have this grid cached during the creation of the first image tile, predicting temperatures using bilinear interpolation algorithm is very fast for the creation of the subsequent tiles.</p>
+
+<p>The algorithm was applied with unit square bilinear interpolation because each square in the grid is considered unit square.</p>
+
+<p>Mathmatically, given a coordinate system in which the four corners of a unit square are (0, 0), (0, 1), (1, 0), and (1, 1), then the interpolation formula is:</p>
+
+<p><code>\(f(x, y) \approx \begin{bmatrix}1-x &amp; x\end{bmatrix} \begin{bmatrix}f(0,0) &amp; f(0,1) \\
+f(1,0) &amp; f(1,1) \end{bmatrix} \begin{bmatrix}1-y &amp; y \end{bmatrix}\)</code></p>
+
+<p>where, <code>\(f(x,y)\)</code> is bilinearly interpolated temperature at longitude x and latitude y, and f(0, 0) through f(1, 1) are precomputed, or cached temperatures of 4 corners of a unit square in the grid.</p>
+
+<p>Coordinates are shown in the picture below, as illustrated in wikipedia. <br>Consider top left corner <code>\((X_1,Y_2)\)</code>, or <code>\(Q_{12}\)</code> as (0, 0) and bottom right corner <code>\((X_2, Y_1)\)</code>, or <code>\(Q_{21}\)</code> as (1, 1) in this project. <br><code>P</code> corresponds to <code>\(f(x,y)\)</code>.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/BilinearInterpolation.svg/324px-BilinearInterpolation.svg.png" alt="picture" /></p>
+
+<p>Source from <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation">wikipedia</a></p>
+
+<p>For those who are confused how to apply this algorithm, here is an example.
+Let&rsquo;s say predicting temperature of a location with longitude 128.254 and latitude 36.923.
+Then, the coordinate (0,0) maps to (128, 37), and (1, 0) maps to (129, 37), (0, 1) maps to (128, 36),
+and (1, 1) maps to (129, 36). With this at hand, you can apply unit square bilinear interpolation
+formula.</p>
+
+<p>Once you implement <code>bilinear interpolation</code> APIs in Visualizaion2 module, you may rewrite driver program
+like this:</p>
+
+<pre><code class="language-scala">import Visualization2._
+...
+
+//generate image fast using bilinear interpolation algorithm
+def callmeBackGrid(year: Int, zoom: Int, x: Int, y: Int, 
+                   data: Iterable[(Location, Double)]): Unit = {
+  val (image, timeTaken) = time(visualizeGrid(makeGrid(data), colorScale, zoom, x, y))
+  val path = image.output(s&quot;target/temperatures/${year}/${zoom}/${x}-${y}.png&quot;)
+  println(s&quot;${path}: ${timeTaken} milliseconds taken&quot;)
+}
+
+val yearlyData = (1975 to 2014).map { y =&gt;
+  (y, locationYearlyAverageRecords(locateTemperatures(y, &quot;/stations.csv&quot;, s&quot;/${y}.csv&quot;))) }
+
+
+generateTiles(yearlyData, callmeBackGrid)
+</code></pre>
+
+<p>Now, let&rsquo;s run the driver program and the console output may look something like this(maybe different depending on the hardware performance of your laptop):</p>
+
+<pre><code class="language-bash">target\temperatures\1975\0\0-0.png: 204897 milliseconds taken
+target\temperatures\1975\1\0-0.png: 78 milliseconds taken
+target\temperatures\1975\1\0-1.png: 60 milliseconds taken
+target\temperatures\1975\1\1-0.png: 49 milliseconds taken
+target\temperatures\1975\1\1-1.png: 47 milliseconds taken
+...
+</code></pre>
+
+<p>This is huge speed up.</p>
+
+<p>Note that it takes long time to build the first image(1975\0\0-0.png) as it needs to cache up grid data
+while generating the image. Once it caches grid, building subsequent images need no time as they are
+built based on the already cached grid when applying bilinear interpolation algorithm.</p>
+
+<p>It produced all images from 1975 to 2014 no longer 2 hours with my laptop!</p>
+
+<p>One thing to note: the value <code>\(p\)</code> in <code>\(w_i(\mathbf x) = {1 \over d(\mathbf x, \mathbf x_i)^p}\)</code></p>
+
+<p>I tried from 2.0, 3.0, 4.0, 4.5, 5.0 for the value p, and I found value 4.5 is best performant.
+I posted the result of this project <a href="https://oldcook.github.io/capstone/interaction2.html">here</a> and if you look at the image of year 2013 you will see image with p value 2.0. I created year 2013 temperature image with p value 2.0 for experimental purpose. All other images are created with p value 4.5</p>
+
+<p>There are other images that need to be generated in this porject. They are deviation images, which look something like below(from project homepage).</p>
+
+<p><img src="/img/blog/devi.png" alt="" /></p>
+
+<p>They are images of recent temperature changes from average temperature.
+The average temperature is temperature averaging from year 1975 to 1989.
+This average temperature is considered <em>normal</em> and the deviation images
+show how much the tempertures have changed over each year from 1990 to 2015, compared to <em>normal</em> temperature.</p>
+
+<p>These images are again generated using bilinear interpolation algorithm for speed up.
+Assuming that you implemented the <strong>Manipulation</strong> module, the implementation code generating these images is like below:</p>
+
+<pre><code class="language-scala">  import Manipulation._
+  ...
+
+  //generate temperature deviation images 
+  val colorScale2 = Seq((7d, Color(0, 0, 0)), (4d, Color(255, 0, 0)), (2d, Color(255, 255, 0)), 
+    (0d, Color(255, 255, 255)), (-2d, Color(0, 255, 255)), (-7d, Color(0, 0, 255)))
+
+  val temperaturess = (1975 to 1989).map{ y =&gt; 
+    locationYearlyAverageRecords(locateTemperatures(y, &quot;/stations.csv&quot;, s&quot;/${y}.csv&quot;)) }
+
+  val normals: (Int, Int) =&gt; Double = average(temperaturess)
+
+  def callmeBackDeviation(year: Int, zoom: Int, x: Int, y: Int, 
+                          data: Iterable[(Location, Double)]): Unit = {
+    val (image, timeTaken) = time(visualizeGrid(deviation(data, normals), colorScale2, zoom, x, y))
+    val path = image.output(s&quot;target/deviations/${year}/${zoom}/${x}-${y}.png&quot;)
+    println(s&quot;$path: $timeTaken milliseconds taken&quot;)
+  }
+
+  val yearlyData = (1990 to 2015).map { y =&gt;
+    (y, locationYearlyAverageRecords(locateTemperatures(y, &quot;/stations.csv&quot;, s&quot;/${y}.csv&quot;))) }
+
+  generateTiles(yearlyData, callmeBackDeviation)
+</code></pre>
+
+<p>Running code above produces simlar console output as below:</p>
+
+<pre><code class="language-bash">target\deviations\1990\0\0-0.png: 283891 milliseconds taken to compute this image
+target\deviations\1990\1\0-0.png: 937 milliseconds taken to compute this image
+target\deviations\1990\1\0-1.png: 59 milliseconds taken to compute this image
+target\deviations\1990\1\1-0.png: 52 milliseconds taken to compute this image
+target\deviations\1990\1\1-1.png: 47 milliseconds taken to compute this image
+...
+</code></pre>
+
+<p>Final milestone is to implement an interactive user interface using <code>Signal</code> abstraction and Scala.js,
+which seem to be very useful tools for developing reactive web application. You will need to know how <code>Signal</code> works,
+so read <code>Signal</code> source code in the project carefully to understand how signals propagate data around.</p>
+
+<p>It is good to understand basics on how Scala.js works, but you really
+don&rsquo;t need to know about it to make it happen in this project.
+You just follow the instructions in the course and you will get idea.</p>
+
+<p>Once all the milestones are successfully passed by the grader, then you are ready to observe
+the global climate changes on the interactive web.
+Just follow the instruction in the final milestone and you will see
+something like my result <a href="https://oldcook.github.io/capstone/interaction2.html">here</a></p>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    // Fix <code> tags after MathJax finishes running. This is a
+    // hack to overcome a shortcoming of Markdown. Discussion at
+    // https://github.com/mojombo/jekyll/issues/199
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {font: inherit;
+              font-size: 95%;
+              background: inherit;
+              border: inherit;
+              color: #515151;}
+
+
+</style>
+
+      </div>
+    </div>
+  </div>
+  <div class="pure-u-1-24 pure-u-md-1-6"></div>
+</div>
+
+<br><br>
+<div class="footer pure-g">
+  <div class="pure-u-1-24 pure-u-md-1-6"></div>
+  <div class="pure-u-11-12 pure-u-md-2-3">
+    <div class="footer-content">
+      <div class="pure-menu pure-menu-horizontal">
+        <ul>
+          
+          <li class="pure-menu-item" id="foot-name">© Sangche Hwang</li>
+          
+
+          
+          <li class="pure-menu-item">
+            <a href="mailto:sangche.hwang@gmail.com" class="pure-menu-link">Email</a>
+          </li>
+          
+
+          
+          <li class="pure-menu-item">
+            <a href="https://github.com/sangche" class="pure-menu-link">GitHub</a>
+          </li>
+          
+
+          
+          <li class="pure-menu-item">
+            <a href="https://twitter.com/twitterID" class="pure-menu-link">Twitter</a>
+          </li>
+          
+
+        </ul>
+        <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
+      </div>
+      
+      <p id="foot-copyright">(c) 2017 - 2018</p>
+      
+    </div>
+  </div>
+  <div class="pure-u-1-24 pure-u-md-1-6"></div>
+</div>
+
+
+
+  
+   
+  
+
+
+<script type="text/javascript">
+  go();
+  window.addEventListener('resize', go);
+  function go(){
+    var d=document.querySelector(".desktop")
+    if(document.documentElement.clientWidth > 768) {
+      d.style.display="";
+    } else {
+      d.style.display="none";
+    }
+  }
+</script>
+<script type="text/javascript">
+  var a=document.querySelector("#toggle-btn"),b=document.querySelector("#toggle-content");a.addEventListener("click",function(){""==b.style.display?(b.style.display="none",a.innerHTML="☰"):(b.style.display="",a.innerHTML="X")});</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'Your Google Analytics ID', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>
+

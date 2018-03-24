@@ -8,11 +8,22 @@
     <language>en-us</language>
     <managingEditor>sangche.hwang@gmail.com (Sangche Hwang)</managingEditor>
     <webMaster>sangche.hwang@gmail.com (Sangche Hwang)</webMaster>
-    <copyright>(c) 2016 - 2018</copyright>
-    <lastBuildDate>Thu, 22 Feb 2018 23:23:07 +0900</lastBuildDate>
+    <copyright>(c) 2017 - 2018</copyright>
+    <lastBuildDate>Thu, 15 Mar 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://sangche.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Distributed chat app with Play Framework and Akka Distributed Data</title>
+      <link>http://sangche.github.io/posts/18-03-15-distributed-chat/</link>
+      <pubDate>Thu, 15 Mar 2018 00:00:00 +0000</pubDate>
+      <author>sangche.hwang@gmail.com (Sangche Hwang)</author>
+      <guid>http://sangche.github.io/posts/18-03-15-distributed-chat/</guid>
+      <description>hljs.initHighlightingOnLoad();
+Developing scalable, distributed application on top of a cluster of cheap commodity computers is popular these days. Open source Akka Toolkit provides attractive tools for developing scalable, distributed application on top of a cluster of computers.
+Akka Distributed Data is useful when you need to share data between nodes in an Akka Cluster. According to Akka Distributed Data Documentation, data is accessed with an actor providing a key-value store like API.</description>
+    </item>
     
     <item>
       <title>About</title>
@@ -20,27 +31,29 @@
       <pubDate>Thu, 22 Feb 2018 23:23:07 +0900</pubDate>
       <author>sangche.hwang@gmail.com (Sangche Hwang)</author>
       <guid>http://sangche.github.io/about/</guid>
-      <description>This page is about myself</description>
+      <description>About myself
+I am a polyglot programmer on a variety of applications with Java, Scala, C/C++, Go, and Haskell.
+I am interested in topics like distributed computing(akka, spark), cluster management(kubernetes, mesos).</description>
     </item>
     
     <item>
       <title>Implementing Countdown problem with Scala</title>
-      <link>http://sangche.github.io/2018/02/20/implementing-countdown-problem-with-scala/</link>
+      <link>http://sangche.github.io/posts/18-02-20-countdown/</link>
       <pubDate>Tue, 20 Feb 2018 14:17:14 +0900</pubDate>
       <author>sangche.hwang@gmail.com (Sangche Hwang)</author>
-      <guid>http://sangche.github.io/2018/02/20/implementing-countdown-problem-with-scala/</guid>
+      <guid>http://sangche.github.io/posts/18-02-20-countdown/</guid>
       <description>hljs.initHighlightingOnLoad();
-Haskell was born functional. I find that functional programming in Haskell looks more succint than in Scala, which is also functional langauge. But Scala was born on top of java to extend functional features. So, Scala is more like hybrid language of object oriented and functioanl features. It means that Scala has OOP, functional, strict, lazy, mutable, immutable, so many features. It all depends on how scala users utilize it.</description>
+Scala progamming language was built on top of Java to extend functional programming features. So, Scala is hybrid language of both object oriented and functioanl features. It means that Scala has object oriented, functional, strictly evaluating, lazily evaluating, mutable, immutable, and more features. What to use among them actually depends on how scala users utilize the language. Imperative, functional, or mixed style. So Scala language looks a bit complicated for starters, because of its overhelming features.</description>
     </item>
     
     <item>
       <title>Functional Programming in Scala Capstone Project</title>
-      <link>http://sangche.github.io/2017/04/20/functional-programming-in-scala-capstone-project/</link>
+      <link>http://sangche.github.io/posts/17-04-20-capstone/</link>
       <pubDate>Thu, 20 Apr 2017 00:00:00 +0000</pubDate>
       <author>sangche.hwang@gmail.com (Sangche Hwang)</author>
-      <guid>http://sangche.github.io/2017/04/20/functional-programming-in-scala-capstone-project/</guid>
+      <guid>http://sangche.github.io/posts/17-04-20-capstone/</guid>
       <description>hljs.initHighlightingOnLoad();
-This scala capstone project is the last course of the Functional Programming in Scala Specialization Series from Coursera. This writing is about my implementation solution of the project, with a little bit of mathmatical model and performance measurements of the project. This project is composed of 6 milestones to implement a complete application which processes and mathmatically compute a lot of weather data, and then shows interactive visualization of the evolutionary temperatures around the world over time on the web, like image below.</description>
+This scala capstone project is the last course of the Functional Programming in Scala Specialization Series from Coursera. This writing is about my implementation solution of the project, with a little bit of mathmatical model and performance measurements of the project. This project is composed of 6 milestones to implement a complete application which processes a lot of weather data, and then shows interactive visualization of the weather distribution around the world and its evolution over time on the web, like image below.</description>
     </item>
     
   </channel>
